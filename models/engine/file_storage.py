@@ -48,13 +48,14 @@ class FileStorage:
             json.dump(odict, f)
 
     def reload(self):
-        """Deserialize the JSON file __file_path to __objects, if it exists."""
+        """from json string to python objects"""
         try:
-            with open(self.__file_path, "r", encoding="utf-8") as f:
-                for o in json.load(f).values():
-                    name = o["__class__"]
-                    del o["__class__"]
-                    self.new(eval(name)(**o))
+            with open(self.__file_path, 'r', encoding='utf-8') as file:
+                dicti = json.load(file)
+            for val in dicti.values():
+                clsnm = eval(val["__class__"])
+                obj = clsnm(**val)
+                self.new(obj)
         except FileNotFoundError:
             pass
 
