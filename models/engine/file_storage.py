@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Defines the FileStorage class."""
+"""File storage for instances of a class created"""
 import json
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -10,14 +10,9 @@ from models.state import State
 from models.user import User
 
 
+
 class FileStorage:
-    """Represent an abstracted storage engine.
-
-    Attributes:
-        __file_path (str): The name of the file to save objects to.
-        __objects (dict): A dictionary of instantiated objects.
-    """
-
+    """Class created"""
     __file_path = "file.json"
     __objects = {}
 
@@ -28,24 +23,26 @@ class FileStorage:
         Otherwise, returns the __objects dictionary.
         """
         if cls is not None:
-            if type(cls) == str:
-                cls = eval(cls)
             cls_dict = {}
-            for k, v in self.__objects.items():
-                if type(v) == cls:
-                    cls_dict[k] = v
+            for key, value in self.__objects.items():
+                cls_nm = key.split(".")
+                if eval(cls_nm[0]) == cls:
+                    cls_dict[key] = value
             return cls_dict
         return self.__objects
 
     def new(self, obj):
-        """Set in __objects obj with key <obj_class_name>.id."""
-        self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
+        """Add a new instance of a class to _-objects"""
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        self.__objects[key] = obj
 
     def save(self):
-        """Serialize __objects to the JSON file __file_path."""
-        odict = {o: self.__objects[o].to_dict() for o in self.__objects.keys()}
-        with open(self.__file_path, "w", encoding="utf-8") as f:
-            json.dump(odict, f)
+        """serialization"""
+        obj_dict = {}
+        for key, obj in self.__objects.items():
+            obj_dict[key] = obj.to_dict()
+        with open(self.__file_path, 'w', encoding='utf-8') as file:
+            json.dump(obj_dict, file)
 
     def reload(self):
         """from json string to python objects"""
@@ -64,7 +61,3 @@ class FileStorage:
         if obj is not None:
             key = "{}.{}".format(type(obj).__name__, obj.id)
             del self.__objects[key]
-
-    def close(self):
-        """Call the reload method."""
-        self.reload()
