@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 """
-Deploy pack and do deploy
+full deployment
 """
 
 from fabric.api import env, local, put, run
 from datetime import datetime
 from os.path import exists, isdir
-env.hosts = ['142.44.167.228', '144.217.246.195']
+env.hosts = ['54.242.159.226', '3.84.222.31']
 
 
 def do_pack():
