@@ -10,7 +10,6 @@ from models.state import State
 from models.user import User
 
 
-
 class FileStorage:
     """Class created"""
     __file_path = "file.json"
