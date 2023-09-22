@@ -44,10 +44,16 @@ def number(n):
     return "{} is a number".format(n)
 
 
-@app.route("/number_template/<int:n>", strict_slashes=Fals)
+@app.route("/number_template/<int:n>", strict_slashes=False)
 def number_template(n):
     """Display a html page and also display a number"""
     return render_template("5-number.html", n=n)
+
+
+@app.route("/number_odd_or_even/<int:n>", strict_slashes=False)
+def odd_or_even(n):
+    """Display number and if its odd or even"""
+    return render_template("6-number_odd_or_even.html", n=n)
 
 
 if __name__ == "__main__":
