@@ -11,7 +11,8 @@ app = Flask(__name__)
 def hbnb_filters():
     """Get all states in database"""
     states = storage.all("State")
-    return render_template("10-hbnb_filters.html", states=states)
+    amenities = storage.all("Amenity")
+    return render_template("10-hbnb_filters.html", states=states, amenities=amenities)
 
 
 @app.teardown_appcontext
